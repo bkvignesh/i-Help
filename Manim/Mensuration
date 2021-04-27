@@ -1,0 +1,249 @@
+from manim import *
+
+class project(Scene):
+    def construct(self):
+        
+        intro = Tex("Chapter 1: Mensuration")
+        intro_1 = Tex("Class 8")        
+        intro_1.next_to(intro, 1.5*DOWN)
+        self.play(Write(intro))
+        self.play(FadeIn(intro_1))
+        self.wait(2)
+        self.play(FadeOut(intro), FadeOut(intro_1))
+        self.wait(1)
+
+class basic(Scene):
+    def construct(self):
+
+        title = Tex("Basic Math Operations")
+        title.set_color(color=["#aec6cf",WHITE])
+        self.play(Write(title))
+        self.wait(1.5)
+        
+        title_n = title.copy().move_to(3*UP).scale(0.75)
+        self.play(Transform(title, title_n))
+        self.wait(1)
+
+        add = Tex("Addition").scale(1.4)
+        sub = Tex("Subtraction").scale(1.4)
+        mul = Tex("Multiplication").scale(1.4)
+        div = Tex("Division").scale(1.4)
+
+        add_a = add.copy().scale(0.8)
+        add_b = MathTex("+", color = ORANGE).scale(1.25).next_to(add_a, RIGHT)
+        
+        self.play(Write(add))
+        self.play(ReplacementTransform(add, add_a), ShowCreation(add_b), runtime=(1.5))
+        self.wait(0.5)
+        add_g=VGroup(add_a,add_b)
+        self.play(add_g.animate.scale(0.8).move_to(2.5*LEFT+1.5*UP))
+        self.wait(0.5)
+
+        sub_a = sub.copy().scale(0.8)
+        sub_b = MathTex("-", color = ORANGE).scale(1.25).next_to(sub_a, RIGHT)
+        
+        self.play(Write(sub))
+        self.play(ReplacementTransform(sub, sub_a), ShowCreation(sub_b), runtime=(1.5))
+        self.wait(0.5)
+        sub_g=VGroup(sub_a,sub_b)
+        self.play(sub_g.animate.scale(0.8).move_to(2.5*RIGHT+1.5*UP))
+        self.wait(0.5)
+
+        mul_a = mul.copy().scale(0.8)
+        mul_b = Tex("x", color = ORANGE).scale(1.25).next_to(mul_a, RIGHT)
+        
+        self.play(Write(mul))
+        self.play(ReplacementTransform(mul, mul_a), ShowCreation(mul_b), runtime=(1.5))
+        self.wait(0.5)
+        mul_g=VGroup(mul_a,mul_b)
+        self.play(mul_g.animate.scale(0.8).move_to(2.5*RIGHT+DOWN))
+        self.wait(0.5)
+
+        div_a = div.copy().scale(0.8)
+        div_b = Tex("/", color = ORANGE).scale(1.25).next_to(div_a, RIGHT)
+        
+        self.play(Write(div))
+        self.play(ReplacementTransform(div, div_a), ShowCreation(div_b), runtime=(1.5))
+        self.wait(0.5)
+        div_g=VGroup(div_a,div_b)
+        self.play(div_g.animate.scale(0.8).move_to(2.5*LEFT+DOWN))
+        self.wait(2)
+
+        solve=Tex("How can we apply these to solve real life problems?").scale(0.8).set_color(color=["#aec6cf",WHITE])
+        basics=VGroup(add_g,sub_g,mul_g,div_g)
+        solve_a=Tex("You can use them to measure things like ", "Area"," and ", "Perimeter", "!").scale(0.8)
+        solve_a[1].set_color(color=[ORANGE,RED])
+        solve_a[3].set_color(color=[BLUE,GREEN])
+        solve_a.next_to(solve, 1.2*DOWN)
+        self.play(ReplacementTransform(basics,solve), FadeOut(title))
+        self.wait(3)
+        
+        self.play(solve.animate.move_to(0.5*UP),Write(solve_a))
+        self.wait(3)
+
+        self.play(FadeOut(solve),FadeOut(solve_a))
+        self.wait(0.5)
+
+class twod(MovingCameraScene):
+    def construct(self):
+
+        twod = Tex("2 Dimensions (2D)").move_to(0.5*UP)
+
+        des = Tex("Shapes that have only length and breadth and exist in one plane").scale(0.7).set_color(BLUE)
+        des.next_to(twod, DOWN)
+        c = Circle(color=RED, fill_opacity=0.5).move_to(3*LEFT+3*UP)
+        s = Square(color=BLUE, fill_opacity=0.5).move_to(3*RIGHT+3*UP)
+        t = Polygon(1*UP, 1*DOWN+1*LEFT, 1*DOWN+1*RIGHT, 1*UP, color=YELLOW, fill_opacity=0.5).move_to(3*LEFT+3*DOWN)
+        r = Rectangle(height=1.2, breadth=1.4,color=ORANGE, fill_opacity=0.5).move_to(3*RIGHT+3*DOWN)
+        pen = Polygon(2*UP, RIGHT+UP, RIGHT+0.5*DOWN, LEFT+0.5*DOWN, LEFT+UP, color=PURPLE, fill_opacity=0.5).move_to(7*RIGHT)
+        p = Polygon(LEFT+UP, 2*RIGHT+UP, RIGHT+DOWN, 2*LEFT+DOWN, LEFT+UP, color=GREEN_B, fill_opacity=0.5).move_to(7*LEFT)
+
+        tr = Tex("Triangle").scale(0.5)
+        tr.add_updater(lambda m:m.move_to(t.get_center()))
+        ci = Tex("Circle").scale(0.5)
+        ci.add_updater(lambda m:m.move_to(c.get_center()))
+        sq = Tex("Square").scale(0.5)
+        sq.add_updater(lambda m:m.move_to(s.get_center()))
+        re = Tex("Rectangle").scale(0.5)
+        re.add_updater(lambda m:m.move_to(r.get_center()))
+        pa = Tex("Parallelogram").scale(0.5)
+        pa.add_updater(lambda m:m.move_to(p.get_center()))
+        pe = Tex("Pentagon").scale(0.5)
+        pe.add_updater(lambda m:m.move_to(pen.get_center()))
+
+    
+        self.play(ShowCreation(twod))
+        self.wait(1)
+        self.add(c)
+        self.play(self.camera.frame.animate.move_to(c).set(width=c.width*2))
+        self.add(s)
+        self.wait(0.3)
+        self.play(self.camera.frame.animate.move_to(s).set(width=s.width*2))
+        self.add(pen)
+        self.wait(0.3)
+        self.play(self.camera.frame.animate.move_to(pen).set(width=pen.width*2.5))
+        self.add(r)
+        self.wait(0.3)
+        self.play(self.camera.frame.animate.move_to(r).set(width=r.width*1.5))
+        self.add(t)
+        self.wait(0.3)
+        self.play(self.camera.frame.animate.move_to(t).set(width=t.width*2))
+        self.add(p)
+        self.wait(0.3)
+        self.play(self.camera.frame.animate.move_to(p).set(width=p.width*1.5))
+        self.wait(0.3)
+
+        self.play(self.camera.frame.animate.move_to(ORIGIN).set(width=18), FadeIn(des))
+        self.wait(5)
+        
+        names=VGroup(tr,ci,sq,re,pe,pa)
+        self.play(FadeIn(names))
+
+        self.wait(2)
+
+        how = Tex("How do we check if a given shape is 2D?").scale(0.85)
+        check = Tex("They can be drawn on a piece of paper!", color=GOLD).scale(1.2)
+        check.next_to(how, 1.25*DOWN)
+
+        self.play(FadeOut(des))
+        self.play(ReplacementTransform(twod, how))
+        self.wait(2)
+        self.play(Write(check))
+        self.wait(2)
+        self.clear()
+        self.wait(2)
+
+class area(Scene):
+    def construct(self):
+        title_1=Tex("Area").scale(1.1)
+        title_2=Tex("Area").scale(0.9).to_edge(UP)
+        desc=Tex("The measure of a surface or a region. It is the amount of space inside a shape.").scale(0.7).set_color_by_gradient(BLUE, WHITE)
+        desc.next_to(title_2,1.5*DOWN)
+        self.play(Write(title_1))
+        self.wait(2)
+        self.play(ReplacementTransform(title_1,title_2))
+        self.wait(2)
+        self.play(Write(desc))
+        self.wait(2)
+
+        s = Square(side_length=3, fill_opacity=0.75, color=WHITE, stroke_width=0.7).to_edge(LEFT)
+        line1=Polygon(1.5*UP,1.5*DOWN, stroke_width=10, color="#fdfd96").to_edge(LEFT)
+        line2=Polygon(1.5*RIGHT,1.5*LEFT, stroke_width=10, color="#fdfd96").next_to(line1,0.001*DOWN).to_edge(LEFT)
+        area=Tex("How do we calculate the area?").move_to(2*RIGHT).scale(0.8)
+        self.play(GrowFromCenter(s))
+        #self.play(s.animate.set_color(color=[BLUE,GREEN]), run_time=2)
+        scopy=s.copy()
+        self.play(ReplacementTransform(scopy,area), s.animate.set_color(color=[BLUE,GREEN]), run_time=1.5)
+        
+        self.wait(3)
+
+
+        area_formula=Tex("Area =", "Length x Breadth")
+        area_formula[0].set_color("#ff6961")
+        area_formula[1].set_color("#FAC898").scale(0.8)
+        
+        #area_formula2=Tex("Length x Breadth ", color=)
+        #area_formula2.next_to(area_formula1,0.5*RIGHT)
+        #area_group=VGroup(area_formula1, area_formula2)
+        #area_group.next_to(area, 2*DOWN)
+        area_formula.next_to(area, 2*DOWN)
+        self.play(Write(area_formula), ShowCreation(line1), ShowCreation(line2))
+        self.wait(4)
+        all_group=VGroup(area_formula,line1,line2,s,title_2,desc,area)
+        self.play(FadeOut(all_group))
+        
+class perimeter(Scene):
+    def construct(self):
+        
+        s = Square(side_length=3, fill_opacity=0.75, stroke_width=0.7).to_edge(LEFT).set_color(color=[BLUE,GREEN])
+        now=Tex("Now that we know what Area is, what is the ", "Perimeter", " ?").scale(0.9).set_color(color=["#aec6cf",WHITE])
+        self.wait(0.5)
+        self.play(GrowFromCenter(now))
+        self.wait(3)
+        self.play(FadeOut(now[0]),FadeOut(now[2]))
+        
+
+        
+        title_1=Tex("Perimeter").scale(1.1)
+        title_2=Tex("Perimeter").scale(0.9).to_edge(UP)
+        desc=Tex("The length of the boundary of any shape or region").scale(0.7).set_color_by_gradient(BLUE, WHITE)
+        desc.next_to(title_2,1.5*DOWN)
+        sq_peri=Polygon(1.5*UP,1.5*DOWN,3*RIGHT+1.5*DOWN,3*RIGHT+1.5*UP, stroke_width=10).to_edge(RIGHT).set_color(YELLOW)
+
+        self.play(ReplacementTransform(now[1],title_1))
+        self.wait(1)
+        self.play(ReplacementTransform(title_1,title_2), FadeIn(s))
+        self.wait(1)
+        self.play(Write(desc),s.animate.to_edge(RIGHT).set_color(color=[ORANGE,BLUE]))
+
+        self.wait(0.5)
+        
+        
+        self.play(ShowCreation(sq_peri))
+        self.wait(3)
+
+
+ 
+        
+        
+        
+        
+
+
+
+
+
+
+        
+    
+        
+
+
+
+
+
+
+
+
+
+        
