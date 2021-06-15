@@ -253,6 +253,7 @@ class perimeter(Scene):
         p=VGroup(title_3,title_4,peri_line,dot,dot1,s)
         self.play(FadeOut(p), FadeOut(peri_line))
         self.wait(2)
+        
 class example(Scene):
     def construct(self):
         title_5=Tex("Let's take an example!")
