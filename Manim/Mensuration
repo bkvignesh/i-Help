@@ -33,7 +33,7 @@ class basic(Scene):
         add_b = MathTex("+", color = ORANGE).scale(1.25).next_to(add_a, RIGHT)
         
         self.play(Write(add))
-        self.play(ReplacementTransform(add, add_a), ShowCreation(add_b), runtime=(1.5))
+        self.play(ReplacementTransform(add, add_a), Create(add_b), runtime=(1.5))
         self.wait(0.5)
         add_g=VGroup(add_a,add_b)
         self.play(add_g.animate.scale(0.8).move_to(2.5*LEFT+1.5*UP))
@@ -43,7 +43,7 @@ class basic(Scene):
         sub_b = MathTex("-", color = ORANGE).scale(1.25).next_to(sub_a, RIGHT)
         
         self.play(Write(sub))
-        self.play(ReplacementTransform(sub, sub_a), ShowCreation(sub_b), runtime=(1.5))
+        self.play(ReplacementTransform(sub, sub_a), Create(sub_b), runtime=(1.5))
         self.wait(0.5)
         sub_g=VGroup(sub_a,sub_b)
         self.play(sub_g.animate.scale(0.8).move_to(2.5*RIGHT+1.5*UP))
@@ -53,7 +53,7 @@ class basic(Scene):
         mul_b = Tex("x", color = ORANGE).scale(1.25).next_to(mul_a, RIGHT)
         
         self.play(Write(mul))
-        self.play(ReplacementTransform(mul, mul_a), ShowCreation(mul_b), runtime=(1.5))
+        self.play(ReplacementTransform(mul, mul_a), Create(mul_b), runtime=(1.5))
         self.wait(0.5)
         mul_g=VGroup(mul_a,mul_b)
         self.play(mul_g.animate.scale(0.8).move_to(2.5*RIGHT+DOWN))
@@ -63,7 +63,7 @@ class basic(Scene):
         div_b = Tex("/", color = ORANGE).scale(1.25).next_to(div_a, RIGHT)
         
         self.play(Write(div))
-        self.play(ReplacementTransform(div, div_a), ShowCreation(div_b), runtime=(1.5))
+        self.play(ReplacementTransform(div, div_a), Create(div_b), runtime=(1.5))
         self.wait(0.5)
         div_g=VGroup(div_a,div_b)
         self.play(div_g.animate.scale(0.8).move_to(2.5*LEFT+DOWN))
@@ -112,7 +112,7 @@ class twod(MovingCameraScene):
         pe.add_updater(lambda m:m.move_to(pen.get_center()))
 
     
-        self.play(ShowCreation(twod))
+        self.play(Create(twod))
         self.wait(1)
         self.add(c)
         self.play(self.camera.frame.animate.move_to(c).set(width=c.width*2))
@@ -166,14 +166,29 @@ class area(Scene):
         self.play(Write(desc))
         self.wait(2)
 
-        s = Square(side_length=3, fill_opacity=0.75, color=WHITE, stroke_width=0.7).to_edge(LEFT)
-        line1=Polygon(1.5*UP,1.5*DOWN, stroke_width=10, color="#fdfd96").to_edge(LEFT)
-        line2=Polygon(1.5*RIGHT,1.5*LEFT, stroke_width=10, color="#fdfd96").next_to(line1,0.001*DOWN).to_edge(LEFT)
+        s = Square(side_length=3, fill_opacity=0.75, color=BLUE, stroke_width=0.7)
+        dot = Dot([-1.5, -1.5, 0])
+        dot2 = Dot([1.5, -1.5, 0], color=ORANGE)
+        line = Line(dot.get_center(), dot2.get_center(), stroke_width=7).set_color(ORANGE)
+
+        dot3=Dot([-1.5,-1.5,0], color=ORANGE)
+        dot4=Dot([-1.5,1.5,0], color=ORANGE)
+        line2 = Line(dot3.get_center(), dot4.get_center(), stroke_width=7).set_color(ORANGE)
+
+        
+
+        ##line1=Polygon(1.5*UP,1.5*DOWN, stroke_width=10, color="#fdfd96").to_edge(LEFT)
+        ##line2=Polygon(1.5*RIGHT,1.5*LEFT, stroke_width=10, color="#fdfd96").next_to(line1,0.001*DOWN).to_edge(LEFT)
         area=Tex("How do we calculate the area?").move_to(2*RIGHT).scale(0.8)
         self.play(GrowFromCenter(s))
-        #self.play(s.animate.set_color(color=[BLUE,GREEN]), run_time=2)
+        
+        ##self.add(dot,dot2,line,dot3,dot4,dot5,dot6,dot7,dot8,line2,line3,line4,line)
+        sgroup=VGroup(dot,dot2,line,dot3,dot4,line2,line)
+        self.play(s.animate.to_edge(LEFT))
+
+        self.play(s.animate.set_color(color=[BLUE,GREEN]))
         scopy=s.copy()
-        self.play(ReplacementTransform(scopy,area), s.animate.set_color(color=[BLUE,GREEN]), run_time=1.5)
+        self.play(ReplacementTransform(scopy,area), run_time=1.5)
         
         self.wait(3)
 
@@ -187,10 +202,11 @@ class area(Scene):
         #area_group=VGroup(area_formula1, area_formula2)
         #area_group.next_to(area, 2*DOWN)
         area_formula.next_to(area, 2*DOWN)
-        self.play(Write(area_formula), ShowCreation(line1), ShowCreation(line2))
-        self.wait(4)
-        all_group=VGroup(area_formula,line1,line2,s,title_2,desc,area)
-        self.play(FadeOut(all_group))
+        sgroup1=sgroup.to_edge(LEFT).shift(0.1*LEFT)
+        self.play(Write(area_formula), FadeIn(sgroup1), run_time=2)
+        self.wait(2)
+        all_group=VGroup(area_formula,sgroup,s,title_2,desc,area)
+        self.play(all_group.animate.shift(20*LEFT), run_time=1.5)
         
 class perimeter(Scene):
     def construct(self):
@@ -205,42 +221,112 @@ class perimeter(Scene):
 
         
         title_1=Tex("Perimeter").scale(1.1)
-        title_2=Tex("Perimeter").scale(0.9).to_edge(UP)
+        title_2=Tex("Perimeter").scale(0.9).move_to(3*UP)
         desc=Tex("The length of the boundary of any shape or region").scale(0.7).set_color_by_gradient(BLUE, WHITE)
         desc.next_to(title_2,1.5*DOWN)
-        sq_peri=Polygon(1.5*UP,1.5*DOWN,3*RIGHT+1.5*DOWN,3*RIGHT+1.5*UP, stroke_width=10).to_edge(RIGHT).set_color(YELLOW)
+        sq_peri=Polygon(1.5*UP,1.5*DOWN,3*RIGHT+1.5*DOWN,3*RIGHT+1.5*UP, stroke_width=10).to_edge(RIGHT).set_color(YELLOW_D)
 
         self.play(ReplacementTransform(now[1],title_1))
         self.wait(1)
         self.play(ReplacementTransform(title_1,title_2), FadeIn(s))
         self.wait(1)
-        self.play(Write(desc),s.animate.to_edge(RIGHT).set_color(color=[ORANGE,BLUE]))
+        self.play(Write(desc),s.animate.to_edge(RIGHT).set_color(color=[BLUE_A,BLUE]), run_time=1)
+
+        self.wait(1)
+        self.play(FadeOut(title_2,desc))
+        self.wait(0.3)
+
+        title_3=Tex("How do we calculate the perimeter?").scale(0.9).set_color(YELLOW_A).move_to(0.6*LEFT)
+        title_4=Tex("Perimeter = Sum of all sides").next_to(title_3, 1.5*DOWN).scale(1.2).set_color(color=[ORANGE,YELLOW_B])
+
+        self.play(Write(title_3), Create(sq_peri))
+        self.wait(2)
+        ##peri_line=Polygon(3*LEFT,3*RIGHT,set_color=YELLOW,stroke_width=6).next_to(title_4, DOWN)
+        
+        dot=Dot([-3.6,-2.2,0])
+        dot1=Dot([2.4,-2.2,0])
+        peri_line=Line(dot.get_center(), dot1.get_center()).set_color(YELLOW_D)
+        peri=VGroup(peri_line,dot,dot1)
+        self.play(title_3.animate.shift(0.5*UP),Write(title_4), Transform(sq_peri,peri), run_time=2)
+        self.wait(4)
+        
+        p=VGroup(title_3,title_4,peri_line,dot,dot1,s)
+        self.play(FadeOut(p), FadeOut(peri_line))
+        self.wait(2)
+class example(Scene):
+    def construct(self):
+        title_5=Tex("Let's take an example!")
+        self.play(Write(title_5))
+        self.wait(1)
+        self.play(title_5.animate.shift(5*UP).scale(0.9))
+        rect=Rectangle(height=3, breadth=5, fill_opacity=0.75, stroke_width=0.7).set_color(color=[BLUE, BLUE_A])
+    
+        self.play(GrowFromCenter(rect))
+        title_6=Tex("Given a rectangle").move_to(3.5*UP)
+        self.play(Write(title_6))
+
+        dot3=Dot([-2,-1.5,0])
+        dot4=Dot([2,-1.5,0])
+        line2 = Line(dot3.get_center(), dot4.get_center()).set_color(ORANGE)
+        b3 = Brace(line2)
+        b3text = b3.get_text("Length ","= ", "5m").scale(0.9)
+        b3text1 = b3.get_text("5m").scale(0.9)
+        self.add(line2,dot3,dot4)
+        self.play(FadeIn(b3,b3text))
 
         self.wait(0.5)
+
+        dot = Dot([-2, -1.5, 0])
+        dot2 = Dot([-2, 1.5, 0])
+        line = Line(dot.get_center(), dot2.get_center()).set_color(ORANGE)
+        b2 = Brace(line, direction=line.copy().rotate(PI/2).get_unit_vector())
+        b2text = b2.get_text("Breadth ", "= ", "3m").scale(0.9)
+        self.add(line,dot,dot2)
+        self.play(FadeIn(b2, b2text))
+
+        rectangle=VGroup(rect,line,dot,dot2,b2,b2text,line2,dot3,dot4,b3,b3text)
+
+
+        self.play(rectangle.animate.shift(1.5*LEFT,2*UP).scale(0.85),FadeOut(title_6))
+        self.wait(1.5)
+
+        title_7=Tex("To find the area of the given rectangle").set_color(BLUE_B).scale(0.7).to_corner(UP+RIGHT)
+        title_7_1=title_7.shift(1*DOWN)
+        title_8=Tex("Area = 3 x 5 = 15 sq metres").next_to(title_7, 1.5*DOWN).set_color(color=[YELLOW_B])
+
+        self.play(Write(title_7_1))
+        self.wait(1)
+        self.play(Write(title_8))
+        self.wait(2)
+
+        rect_area=VGroup(title_7,title_8)
+        self.play(FadeOut(rect_area))
+
+        self.wait(1)
         
-        
-        self.play(ShowCreation(sq_peri))
-        self.wait(3)
+        self.play(rectangle.animate.to_edge(RIGHT))
+        self.wait(0.5)
+        self.play(FadeOut(b2text[0],b2text[1],b3text[0],b3text[1]))
+        self.play(b3text[2].animate.shift(0.9*LEFT))
+        self.wait(0.5)
+        title_9=Tex("Now to find the perimeter of the rectangle").set_color(BLUE_B).scale(0.7).to_corner(UP+LEFT).shift(1*DOWN,RIGHT)
+        title_10=Tex("Perimeter ", "= ", "3 + 5 + 3 + 5").next_to(title_9, 1.5*DOWN).set_color(color=[YELLOW_B])
+        title_11=Tex("Perimeter ", "= ", "16 metres").next_to(title_9, 1.5*DOWN).set_color(color=[YELLOW_B])
 
+        self.play(Write(title_9))
+        self.wait(1)
+        self.play(Write(title_10))
+        self.wait(0.5)
+        self.play(ReplacementTransform(title_10,title_11))
+        self.wait(2)
 
- 
-        
-        
-        
-        
-
-
-
-
-
-
-        
-    
-        
-
-
-
-
+        out=VGroup(title_9,title_11,rect,line,dot,dot2,b2,b2text[2],line2,dot3,dot4,b3,b3text[2])
+        self.play(out.animate.shift(5*UP))
+        self.wait(0.2)
+        thanks=Tex("Thank you").shift(8*DOWN)
+        self.add(thanks)
+        self.play(thanks.animate.move_to(0))
+        self.wait(2)
 
 
 
