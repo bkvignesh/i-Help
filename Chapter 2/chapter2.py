@@ -110,6 +110,101 @@ class Initial(Scene):
         self.wait(1)
         self.clear()
         self.wait(1)
+        
+ # class Exp(Scene):
+ #       def construct(self):
+                title = Tex("What just happened?").scale(1.3).set_color(color=[BLUE_A,BLUE_B])
+                self.play(FadeIn(title))
+                self.wait(2)
+                self.clear()
+                self.wait(0.2)
+                defn = Tex("In year 2, the Interest was not only calculated on ", "Rs. 1000 ", "but also on the interest of year 1, that is ", "Rs. 100").scale(0.8)
+                bundle1 = Circle(radius=1, color=YELLOW, fill_opacity=0.1)
+                tbundle1 = Tex("Rs. 1000").set_color(BLACK).set_opacity(0.1)
+                bundle2 = Circle(radius=0.5, color=RED_A, fill_opacity=0.1)
+                tbundle2 = Tex("Rs. 100").set_color(BLACK).set_opacity(0.1).scale(0.6)
+                gbundle1 = VGroup(bundle1, tbundle1)
+                gbundle2 = VGroup(bundle2, tbundle2)
+                gbundle1.move_to(2*DOWN,LEFT)
+                gbundle2.move_to(2*DOWN,RIGHT)
+                self.play(Write(defn).set_run_time(3))
+                self.play(defn[1].animate.set_color(YELLOW_B), gbundle1.animate.set_opacity(0.9))
+                self.play(defn[3].animate.set_color(RED_C), gbundle2.animate.set_opacity(0.9))
+                self.wait(1)
+                
+                self.clear()
+
+                title2 = Tex("Why do we use Compond Interest?").set_color(RED_C).move_to(0.5*UP)
+                defn2 = Tex("To increase the profits of the lender").next_to(title2,1.5*DOWN)
+
+                self.play(FadeIn(title2))
+                self.wait(1)
+                self.play(Write(defn2))
+                grp1 = VGroup(title2, defn2)
+                self.play(grp1.animate.scale(0.8).to_edge(UP))
+                self.wait(0.5)
+                exm = Tex("In our example, the lender made Rs. 10 more in profits").scale(0.8) 
+                exm1 = Tex("from CI compared to SI").scale(0.8)
+                exm2 = Tex("i.e. Rs 1210 - Rs. 1200 = Rs. 10").scale(0.8)
+
+                self.play(Write(exm))
+                exm1.next_to(exm, DOWN)
+                self.play(Write(exm1))
+                exm2.next_to(exm1, 1.5*DOWN)
+                self.play(Write(exm2.set_color(BLUE_B)))
+                self.wait(2)
+                self.clear()
+
+# class Amount(Scene):
+#        def construct(self):
+                title3 = Tex("Amount").set_color(BLUE_B).scale(1.2).move_to(UP)
+                self.wait(0.5)
+                defn3 = Tex("The sum total of the principal and interest of a loan").next_to(title3, DOWN).scale(0.9)
+                self.play(FadeIn(title3))
+                self.play(Write(defn3))
+                grp2 = VGroup(title3,defn3)
+                self.play(grp2.animate.scale(0.8).to_edge(UP))
+                self.wait(0.3)
+                bundle1 = Circle(radius=1, color=YELLOW, fill_opacity=0.9)
+                tbundle1 = Tex("Rs. 1000").set_color(BLACK)
+                bundle2 = Circle(radius=0.5, color=RED_A, fill_opacity=0.9)
+                tbundle2 = Tex("Rs. 100").set_color(BLACK).scale(0.6)
+                gbundle1 = VGroup(bundle1, tbundle1)
+                gbundle2 = VGroup(bundle2, tbundle2)
+                
+                bundle3 = Circle(radius=1.1, color=RED_A, fill_opacity=0.9)
+                tbundle3 = Tex("Rs. 1100").set_color(BLACK)
+                gbundle3 = VGroup(bundle3, tbundle3)
+                gbundle1.move_to(2*RIGHT)
+                gbundle2.to_edge(2*LEFT)
+                self.play(gbundle1.animate.move_to(0), gbundle2.animate.move_to(0))
+                self.play(gbundle2.animate.set_opacity(0), ReplacementTransform(gbundle1, gbundle3))
+                self.wait(2)
+                self.clear()
+                title4 = Tex("How to calculate the amount for CI?").set_color(RED_B).to_edge(UP).scale(0.8)
+                self.add(title4)
+                self.wait(1)
+
+                defn4 = MathTex(r'A = P({1 + \frac{r}{n}})^{nt}').move_to(1.5*UP).scale(1.2).set_color(BLUE_B)
+                self.play(Write(defn4))
+                self.wait(1)
+                t1=Tex("Where,").move_to(DOWN,LEFT)
+                t2=Tex("A is the amount (ending balance or future value);")
+                t3=Tex("P is the initial principal balance (current balance or present value);").next_to(t2, 0.5*DOWN)
+                t4=Tex("r is the interest rate;").next_to(t3, 0.5*DOWN)
+                t5=Tex("n is the number of times interest in compounded per time period and").next_to(t4, 0.5*DOWN)
+                t6=Tex("t is the number of time periods").next_to(t5, 0.5*DOWN)
+                
+                tgrp=VGroup(t1,t2,t3,t4,t5,t6)
+                tgrp.scale(0.7)
+                tgrp.arrange(0.6*DOWN, center=True, aligned_edge=RIGHT)
+                tgrp.shift(2*DOWN, 2*RIGHT)
+                
+                
+                self.play(FadeIn(tgrp))
+                self.wait(5)
+
+               
 
 # class Example(Scene):
 #     def construct(self):
