@@ -117,6 +117,135 @@ class pie(Scene):
         self.play(Write(title151))
         self.wait(3)
 
+class lop(GraphScene):
+
+   
+    def construct(self):
+
+        t1 = Text("X             G                R             J")
+        t2 = Text("A             K                L             N")
+        t3 = Text("V             Q                T             I")
+        t4 = Text("O             Y                B             Y")
+        t1.shift(2*UP)
+        t2.next_to(t1, 3*DOWN)
+        t3.next_to(t2, 3*DOWN)
+        t4.next_to(t3, 3*DOWN)
+        t = VGroup(t1,t2,t3,t4)
+
+        self.play(FadeIn(t))
+        self.wait(1) 
+
+        title16 = Tex("Where is Ravi sitting?").to_edge(UP)
+        self.play(Write(title16))
+        self.wait(0.5)
+        rect1 = Square(side_length=1, fill_opacity=0.1, color=YELLOW)
+        rect1.shift(2*RIGHT, 2*UP)
+        t5 = Tex("(2,3)").next_to(rect1, RIGHT).scale(0.9).set_color(BLUE_A)
+        self.play(Create(rect1))
+        self.wait(1)
+        
+        plane = NumberPlane(
+            x_range=[-5, 5, 1], y_range=[-4, 4, 1], x_length=10, y_length=7
+        )
+        plane.add_coordinates()
+        plane.shift(0.5*DOWN)
+        plane.set_opacity(0.5)
+        
+        self.play(DrawBorderThenFill(plane), run_time=2)
+
+        vect1 = Line(
+            start=plane.coords_to_point(0, 0),
+            end=plane.coords_to_point(2, 3),
+            stroke_color=LIGHT_PINK,
+        ).add_tip()
+
+        vect2 = Line(
+            start=plane.coords_to_point(0, 0),
+            end=plane.coords_to_point(2, 0),
+            stroke_color=ORANGE,
+        )
+
+        vect3 = Line(
+            start=plane.coords_to_point(0, 0),
+            end=plane.coords_to_point(0, 3),
+            stroke_color=ORANGE,
+        )
+
+        vect1.set_opacity(0.8)
+        
+        v2 = Tex("2").next_to(vect2, DOWN)
+        v3 = Tex("3").next_to(vect3, LEFT)
+        v = VGroup(v2,v3).scale(0.8).set_color(ORANGE)
+        self.play(
+            GrowFromPoint(vect2, point=vect2.get_start()),FadeIn(v),GrowFromPoint(vect3, point=vect3.get_start()))
+        self.wait(0.5)
+        self.play(
+            GrowFromPoint(vect1, point=vect1.get_start()))
+        self.wait(0.5)
+        self.play(FadeIn(t5))
+        self.wait(2)
+
+        total = VGroup(t,title16,rect1,t5,vect1,vect2,vect3,v)
+        self.play(FadeOut(total))
+        
+        plane1 = NumberPlane(
+            x_range=[-15, 15, 1], y_range=[-15, 15, 1], x_length=15, y_length=10
+        )
+        plane1.shift(0.5*DOWN)
+        plane1.set_opacity(0.2)
+        
+        
+        self.play(ReplacementTransform(plane,plane1), runtime=2)
+        self.wait(2)
+
+        title17 = Text("Coordinate Plane").to_edge(UP).scale(0.9)
+        self.play(FadeIn(title17))
+        title21 = Text("Quadrants").to_edge(UP).scale(0.9)
+        title18 = Tex("The plane is made of two perpendicular lines called the x-axis and the y-axis.").scale(0.7).next_to(title17,2*DOWN)
+        title19 = Tex("These axes are marked according to the required unit and").scale(0.7).next_to(title18,0.5*DOWN)
+        title20 = Tex("it helps in locating any desired point by moving along both axes!").scale(0.7).next_to(title19,0.5*DOWN)
+        
+        self.play(FadeIn(title18))
+        self.play(Write(title19))
+        self.play(Write(title20))
+        self.wait(3)
+        self.play(FadeOut(title18,title19,title20))
+        plane1.add_coordinates().set_opacity(0.8)
+        self.play(plane1.animate.set_opacity(0.7))
+        self.play(ReplacementTransform(title17,title21))
+
+        self.wait(2)
+
+        q1 = Text("I").shift(1.5*UP,3*RIGHT).set_color(ORANGE)
+        q2 = Text("II").shift(1.5*UP,3*LEFT).set_color(ORANGE)
+        q3 = Text("III").shift(2.5*DOWN,3*LEFT).set_color(ORANGE)
+        q4 = Text("IV").shift(2.5*DOWN,3*RIGHT).set_color(ORANGE)
+        self.play(FadeIn(q1))
+        self.wait(0.3)
+        self.play(FadeIn(q2))
+        self.wait(0.3)
+        self.play(FadeIn(q3))
+        self.wait(0.3)
+        self.play(FadeIn(q4))
+
+        
+        self.wait(4)
+
+class thanks(Scene):
+     def construct(self):
+        
+                ihelp=ImageMobject("/mnt/f/i-Help-main/logo75.png").scale(0.025).to_corner(RIGHT+UP)
+
+                thanks=Tex("Thank you").shift(8*DOWN)
+                self.add(thanks)
+                
+                self.play(thanks.animate.move_to(2*UP), FadeIn(ihelp))
+                self.wait(2)
+                logo=ImageMobject('/mnt/f/i-Help-main/ihelp.png').scale(0.6).shift(0.6*DOWN)
+
+                self.play(FadeIn(logo), run_time=1)
+                self.wait(4)
+
 
 
 
